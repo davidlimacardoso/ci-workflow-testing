@@ -12,8 +12,10 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: thehanimo/pr-title-checker@v1.4.1
+      - uses: Slashgear/action-check-pr-title@v4.3.0
+        with:
+          regexp: "(feat|fix|docs|add)/.++" # Regex the title should match.
+          helpMessage: "Example: 'feat/some_thing_example_of_title'"
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           pass_on_octokit_error: false
-          configuration_path: .github/pr-title-checker-config.json
