@@ -4,7 +4,7 @@
       "color": "EEEEEE"
     },
     "CHECKS": {
-      "prefixes": ["fix: ", "fix/", "feat: ", "feat/", "add: ", "add/"],
+      "prefixes": ["fix/", "feat/","add/"],
       "regexp": "docs\\(v[0-9]\\): ",
       "regexpFlags": "i",
       "ignoreLabels" : ["test", "meta"]
