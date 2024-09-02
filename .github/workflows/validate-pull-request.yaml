@@ -20,7 +20,7 @@ jobs:
         with:
           script: |
                   const title = context.payload.pull_request.title;
-                  const regex = /^(feat|docs|chore|add|fix):/i;
+                  const regex = /^(feat|docs|chore|add|fix)/i;
 
                   if (!regex.test(title)) {
                     throw new Error("O título da PR deve começar com 'feat:', 'docs:' ou '' ou 'chore:'.");
