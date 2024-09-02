@@ -1,6 +1,11 @@
 #https://github.com/kontrolplane/pull-request-title-validator
 name: Validate PR Title
-on: pull_request
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
 
 permissions:
   pull-requests: read
@@ -13,4 +18,4 @@ jobs:
       - name: validate pull request title
         uses: kontrolplane/pull-request-title-validator@v1.3.2
         with:
-          types: "fix,feat,chore,docs"
+          types: "fix,feat,chore,docs,Docs"
