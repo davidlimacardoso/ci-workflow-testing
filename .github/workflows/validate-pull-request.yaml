@@ -23,5 +23,5 @@ jobs:
                   const regex = /^(feat|docs|chore|add|fix)/i;
 
                   if (!regex.test(title)) {
-                    throw new Error("O título da PR deve começar com 'feat:', 'docs:' ou '' ou 'chore:'.");
+                    throw new Error("O título da PR deve começar com 'feat:', 'docs:' ou 'add' ou 'fix:' ou 'chore:'.");
                   }
