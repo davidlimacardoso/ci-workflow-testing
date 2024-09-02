@@ -1,21 +1,27 @@
+#https://github.com/kontrolplane/pull-request-title-validator
 name: Validate PR Title
 on:
-  pull_request_target:
+  pull_request:
     types:
       - opened
       - edited
       - synchronize
-      - labeled
-      - unlabeled
+
+permissions:
+  pull-requests: read
 
 jobs:
-  check:
+  validator:
+    name: validate-pull-request-title
     runs-on: ubuntu-latest
     steps:
-      - uses: Slashgear/action-check-pr-title@v4.3.0
+      - name: Check PR title
+        uses: actions/github-script@v4
         with:
-          regexp: "(feat|fix|docs|add)/.++" # Regex the title should match.
-          helpMessage: "Example: 'feat/some_thing_example_of_title'"
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          pass_on_octokit_error: false
+          script: |
+                  const title = context.payload.pull_request.title;
+                  const regex = /^(feat|docs|chore|add|fix)/i;
+
+                  if (!regex.test(title)) {
+                    throw new Error("O título da PR deve começar com 'feat:', 'docs:' ou '' ou 'chore:'.");
+                  }
