@@ -1,12 +1,5 @@
 name: Validate PR Title
-on:
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - labeled
-      - unlabeled
+on: pull_request
 
 jobs:
   check:
