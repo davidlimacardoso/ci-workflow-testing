@@ -7,5 +7,5 @@ jobs:
     steps:
       - uses: Slashgear/action-check-pr-title@v4.3.0
         with:
-          regexp: "(Feat|Fix|Docs|Add)/.++" # Regex the title should match.
+          regexp: '(fead|fix|docs|add)\/.*' # Regex the title should match.
           helpMessage: "Example: 'feat/some_thing_example_of_title'"
