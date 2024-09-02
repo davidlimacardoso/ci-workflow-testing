@@ -1,11 +1,16 @@
+#https://github.com/kontrolplane/pull-request-title-validator
 name: Validate PR Title
 on: pull_request
 
+permissions:
+  pull-requests: read
+
 jobs:
-  check:
+  validator:
+    name: validate-pull-request-title
     runs-on: ubuntu-latest
     steps:
-      - uses: Slashgear/action-check-pr-title@v4.3.0
+      - name: validate pull request title
+        uses: kontrolplane/pull-request-title-validator@v1.3.2
         with:
-          regexp: '(fead|fix|docs|add)\/.*' # Regex the title should match.
-          helpMessage: "Example: 'feat/some_thing_example_of_title'"
+          types: "fix,feat,chore,docs"
