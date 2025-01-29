@@ -7,6 +7,10 @@ on:
     paths:
       - terraform/**
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   terraform-plan:
     runs-on: ubuntu-latest
