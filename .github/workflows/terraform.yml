@@ -32,7 +32,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false -out planfile
+        run: terraform plan -no-color
         continue-on-error: true
 
       - name: Comment Plan Output
@@ -76,7 +76,7 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve -input=false -parallelism=1 planfile
+        run: terraform apply -auto-approve
 
       - name: Comment Apply Output
         uses: actions/github-script@v6
