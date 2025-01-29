@@ -6,4 +6,3 @@ resource "local_file" "hello_world" {
   content  = "Hello, World!"
   filename = "hello_world.txt"
 }
-#
