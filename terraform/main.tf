@@ -1,8 +1,9 @@
-provider "local" {
-  version = "2.2.3"
+resource "null_resource" "default" {
+  provisioner "local-exec" {
+    command = "echo 'Hello World'"
+  }
 }
 
-resource "local_file" "hello_world" {
-  content  = "Hello, World!"
-  filename = "hello_world.txt"
+output "test" {
+  value = "Teste123"
 }
