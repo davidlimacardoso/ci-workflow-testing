@@ -8,6 +8,10 @@ on:
       - terraform/**
 
 jobs:
+  defaults:
+    run:
+      shell: bash
+      working-directory: ./terraform
   terraform-plan:
     runs-on: ubuntu-latest
     steps:
