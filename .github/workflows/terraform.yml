@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - terraform/**
+  issue_comment:
+    types: [created]
 
 jobs:
   terraform-plan:
@@ -52,8 +54,10 @@ jobs:
             })
 
   terraform-apply:
-    needs: terraform-plan
-    if: github.event.review.state == 'approved'
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request &&
+      github.event.comment.body == '/apply'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -66,40 +70,23 @@ jobs:
         id: init
         run: terraform init
 
-      - name: Set Terraform Apply Status to Pending
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            await github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: context.sha,
-              state: 'pending',
-              context: 'terraform-apply',
-              description: 'Waiting for Terraform Apply to complete'
-            });
-
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve
 
-      - name: Set Terraform Apply Status to Success
-        if: success()
+      - name: Comment Apply Output
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            await github.rest.repos.createCommitStatus({
+            const output = `#### Terraform Apply Output \`${{ steps.apply.outcome }}\`
+            \`\`\`\n
+            ${{ steps.apply.outputs.stdout }}
+            \`\`\`
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: context.sha,
-              state: 'success',
-              context: 'terraform-apply',
-              description: 'Terraform Apply completed successfully'
-            });
-
-      - name: Enable Merge
-        if: success()
-        run: |
-          echo "Terraform Apply completed successfully. Merge is now enabled."
+              body: output
+            })
