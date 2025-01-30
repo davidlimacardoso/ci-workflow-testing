@@ -42,7 +42,7 @@ jobs:
 
         uses: kanga333/comment-hider@master
         with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
         # See action.yml for other options you can specify
 
       - name: Comment Plan Output
