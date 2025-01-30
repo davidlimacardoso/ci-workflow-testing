@@ -54,7 +54,9 @@ jobs:
             \`\`\`\n
             ${{ steps.plan.outputs.stdout }}
             \`\`\`
+
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            To apply changes, comment: /apply 🚀
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
