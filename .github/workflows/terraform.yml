@@ -38,16 +38,12 @@ jobs:
         run: terraform plan -no-color -detailed-exitcode
         continue-on-error: true
 
-      - name: Minimize Previous Comments
-        uses: actions/github-script@v6
+      - name: Hide Previous Comments
+
+        uses: kanga333/comment-hider@master
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # See action.yml for other options you can specify
 
       - name: Comment Plan Output
         uses: actions/github-script@v6
@@ -66,26 +62,6 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-
-  chockov:
-    name: Checkov
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: read
-    container: ubuntu:20.04
-    steps:
-      - name: Branch checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: '0'
-
-      - name: Configuring job dependencies
-        run: |
-          apt update
-          apt install python-is-python3 pip --no-install-recommends -y
-          pip install checkov
-          case $GITHUB_EVENT_NAME in push) echo "BRANCH_NAME=${{ github.REF_NAME }}" ;; pull_request) echo BRANCH_NAME=${{ github.BASE_REF }} ;; esac   
 
 
   terraform-apply:
