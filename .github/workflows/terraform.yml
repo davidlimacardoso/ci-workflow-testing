@@ -59,11 +59,11 @@ jobs:
               }
             }
 
-      - name: Comment Plan Output
-        uses: banagale/bossbot-action@v0.1.4
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SHOW_ANNOTATION: true
+      # - name: Comment Plan Output
+      #   uses: banagale/bossbot-action@v0.1.4
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SHOW_ANNOTATION: true
 
   terraform-apply:
     if: >
