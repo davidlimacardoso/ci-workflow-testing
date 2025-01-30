@@ -55,7 +55,7 @@ jobs:
             ${{ steps.plan.outputs.stdout }}
             \`\`\`n
             
-            `### To apply this plan, run this command\: \/apply`
+            \`### To apply this plan, run this command\: \/apply\`
 
 
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
