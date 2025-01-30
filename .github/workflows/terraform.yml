@@ -53,10 +53,11 @@ jobs:
             const output = `#### Terraform Plan Output \`${{ steps.plan.outcome }}\`
             \`\`\`\n
             ${{ steps.plan.outputs.stdout }}
-            \`\`\`
-
+            \`\`\`n
+            \`\`\`\n
+            To apply this plan, run this command: /apply
+            \`\`\`n
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-            To apply changes, comment: /apply 🚀
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
