@@ -38,11 +38,28 @@ jobs:
         run: terraform plan -no-color -detailed-exitcode
         continue-on-error: true
 
-      - name: Comment Plan Output
-        uses: banagale/bossbot-action@v0.1.4
+      - name: Clean Previous Comments
+        uses: actions/github-script@v6
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SHOW_ANNOTATION: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr_comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            })
+            await Promise.all(
+              pr_comments.data.filter(
+                comment => comment.body?.startsWith("[${{inputs.identifier}}]")
+              ).map(
+                comment => github.rest.issues.deleteComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  comment_id: comment.id,
+                })
+              )
+            )
 
       - name: Comment Plan Output
         uses: actions/github-script@v6
