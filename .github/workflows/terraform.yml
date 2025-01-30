@@ -38,7 +38,7 @@ jobs:
         run: terraform plan -no-color -detailed-exitcode
         continue-on-error: true
 
-      - name: Clean Previous Comments GitHub Bot
+      - name: Minimize Previous Comments
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -48,16 +48,6 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-
-            const botComments = comments.filter(comment => comment.user.login === 'github-actions[bot]');
-
-            for (const comment of botComments) {
-              await github.rest.issues.deleteComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: comment.id,
-              });
-            }
 
       - name: Comment Plan Output
         uses: actions/github-script@v6
