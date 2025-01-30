@@ -38,16 +38,13 @@ jobs:
         run: terraform plan -no-color -detailed-exitcode
         continue-on-error: true
 
-      - name: Minimize Previous Comments
-        uses: actions/github-script@v6
+
+      - name: Hide Previous Comments
+
+        uses: kanga333/comment-hider@master
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # See action.yml for other options you can specify
 
       - name: Comment Plan Output
         uses: actions/github-script@v6
