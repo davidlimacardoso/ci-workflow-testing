@@ -53,12 +53,10 @@ jobs:
             const botComment = comments.find(comment => {
               return comment.user.type === 'Bot' && comment.body.includes('HCP Terraform Plan Output')
             });
-            const output = `#### HCP Terraform Plan Output
-                \`\`\`
-                Plan: ${{ steps.plan-output.outputs.add }} to add, ${{ steps.plan-output.outputs.change }} to change, ${{ steps.plan-output.outputs.destroy }} to destroy.
-                \`\`\`
-                [HCP Terraform Plan](${{ steps.plan-run.outputs.run_link }})
-                `;
+            const output = `#### Terraform Plan Output \`${{ steps.plan.outcome }}\`
+            \`\`\`\n
+            ${{ steps.plan.outputs.stdout }}
+            \`\`\`
             // 3. Delete previous comment so PR timeline makes sense
             if (botComment) {
               github.rest.issues.deleteComment({
@@ -67,6 +65,7 @@ jobs:
                 comment_id: botComment.id,
               });
             }
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
