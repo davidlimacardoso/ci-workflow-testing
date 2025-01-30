@@ -10,7 +10,6 @@ on:
     types: [created]
 
 jobs:
-
   terraform-plan:
     runs-on: ubuntu-latest
     permissions:
@@ -59,8 +58,9 @@ jobs:
 
   terraform-apply:
     if: >
-      github.event.issue.pull_request && 
-      contains(github.event.comment.body, 'terraform apply')
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request &&
+      github.event.comment.body == '/apply'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -70,16 +70,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      
-
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform refresh
+        run: rm -rf .terraform
 
       - name: Terraform Init
         id: init
         run: terraform init
-
-        
 
       - name: Terraform Apply
         id: apply
