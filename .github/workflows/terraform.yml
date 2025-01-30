@@ -78,7 +78,7 @@ jobs:
     permissions:
       pull-requests: write
       issues: write  
-      contents: read
+      contents: write
       
     defaults:
       run:
@@ -120,9 +120,6 @@ jobs:
             })
 
       - name: Merge Pull Request
-        permissions:
-          pull-requests: write
-          contents: write
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
