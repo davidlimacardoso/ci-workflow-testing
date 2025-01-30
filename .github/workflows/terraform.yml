@@ -62,6 +62,11 @@ jobs:
       github.event.issue.pull_request &&
       github.event.comment.body == '/apply'
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write  
+      contents: read
+      
     defaults:
       run:
         shell: bash
@@ -82,8 +87,7 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve -no-color
-        # continue-on-error: true
+        run: terraform apply -auto-approve
 
       - name: Comment Apply Output
         uses: actions/github-script@v6
