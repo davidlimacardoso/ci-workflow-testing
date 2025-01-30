@@ -87,7 +87,7 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -no-color
 
       - name: Comment Apply Output
         uses: actions/github-script@v6
