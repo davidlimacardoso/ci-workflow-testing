@@ -51,12 +51,13 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Plan Output \`${{ steps.plan.outcome }}\`
-            \`\`\`\n
+            \`\`\`bash\n
             ${{ steps.plan.outputs.stdout }}
-            \`\`\`n
+            \`\`\`
             
-            \`### To apply this plan, run this command\: \/apply\`
+            \#\#\# To apply this plan, run this command\: \/apply
 
+            \n
 
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
             github.rest.issues.createComment({
