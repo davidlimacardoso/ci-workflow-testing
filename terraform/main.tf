@@ -1,10 +1,10 @@
 resource "null_resource" "default" {
   provisioner "local-exec" {
-    command = "echo 'Hello World 3'"
+    command = "echo 'Hello World 1'"
   }
 }
 
 output "test" {
-  value = "Teste 3"
+  value = "Teste 1"
 } 
 ##
