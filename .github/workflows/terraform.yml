@@ -60,22 +60,10 @@ jobs:
             }
 
       - name: Comment Plan Output
-        uses: actions/github-script@v6
-        if: always() && github.event_name == 'pull_request'
+        uses: banagale/bossbot-action@v0.1.4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Plan Output \`${{ steps.plan.outcome }}\`
-            \`\`\`\n
-            ${{ steps.plan.outputs.stdout }}
-            \`\`\`
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHOW_ANNOTATION: true
 
   terraform-apply:
     if: >
