@@ -54,9 +54,10 @@ jobs:
             \`\`\`\n
             ${{ steps.plan.outputs.stdout }}
             \`\`\`n
-            \`\`\`\n
-            To apply this plan, run this command\: \/apply
-            \`\`\`n
+            
+            `### To apply this plan, run this command\: \/apply`
+
+
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
