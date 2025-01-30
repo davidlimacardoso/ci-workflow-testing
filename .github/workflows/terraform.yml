@@ -39,7 +39,6 @@ jobs:
         continue-on-error: true
 
       - name: Hide Previous Comments
-
         uses: kanga333/comment-hider@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -56,6 +55,9 @@ jobs:
             ${{ steps.plan.outputs.stdout }}
             \`\`\`
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            :warning: To apply this plan, comment \`\`\`/apply\`\`\`
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
