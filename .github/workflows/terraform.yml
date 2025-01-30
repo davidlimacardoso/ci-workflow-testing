@@ -67,6 +67,26 @@ jobs:
               body: output
             })
 
+  chockov:
+    name: Checkov
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    container: ubuntu:20.04
+    steps:
+      - name: Branch checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+
+      - name: Configuring job dependencies
+        run: |
+          apt update
+          apt install python-is-python3 pip --no-install-recommends -y
+          pip install checkov
+          case $GITHUB_EVENT_NAME in push) echo "BRANCH_NAME=${{ github.REF_NAME }}" ;; pull_request) echo BRANCH_NAME=${{ github.BASE_REF }} ;; esac   
+
 
   terraform-apply:
     if: >
