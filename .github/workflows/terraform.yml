@@ -51,11 +51,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Plan Output \`${{ steps.plan.outcome }}\`
-            \`\`\`bash\n
+            \`\`\`\n
             ${{ steps.plan.outputs.stdout }}
             \`\`\`
             
-            \#\#\# To apply this plan, run this command\: \/apply
+            \:rocket\: To apply this plan, run this command\: \`\/apply\`
 
             \n
 
