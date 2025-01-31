@@ -150,3 +150,9 @@ jobs:
               pull_number: context.issue.number,
               merge_method: 'merge'
             });
+
+      - name: Hide Previous Comments
+        if: steps.apply.outcome != 'success'
+        uses: kanga333/comment-hider@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
