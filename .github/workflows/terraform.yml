@@ -141,7 +141,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const command = context.payload.comment.body;
-            const outcome = steps.apply.outcome;
+            const outcome = "${{ steps.apply.outcome }}";
             const emoji = outcome === 'failure' ? ':x:' : ':white_check_mark:';
             const output = `#### Terraform Apply Output \`${outcome}\` ${emoji}
             \`\`\`\n
