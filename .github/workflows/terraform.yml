@@ -58,7 +58,7 @@ jobs:
             \:rocket\: To apply this plan, run this command\: \`\/apply\`
 
             \n
-
+  
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -116,6 +116,10 @@ jobs:
         run: terraform apply -detailed-exitcode -auto-approve -no-color
         continue-on-error: true
 
+      - name: Capture Terraform Apply Error
+        if: failure()
+        run: echo "Terraform Apply failed"
+
       # - name: Capture Terraform Apply Error
       #   if: failure()
       #   uses: actions/github-script@v6
@@ -142,11 +146,10 @@ jobs:
           script: |
             const command = context.payload.comment.body;
             const outcome = "${{ steps.apply.outcome }}";
-            const stdout = "${{ steps.apply.outputs.stdout }}";
             const emoji = outcome === 'failure' ? ':x:' : ':white_check_mark:';
             const output = `#### Terraform Apply Output \`${outcome}\` ${emoji}
             \`\`\`\n
-            ${stdout}
+            ${{ steps.apply.outputs.stdout }}
             \`\`\`
             *Executed by: @${{ github.actor }}, Terraform command: \`${command}\`*`;
 
