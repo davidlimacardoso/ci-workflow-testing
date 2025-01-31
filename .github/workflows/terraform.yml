@@ -142,10 +142,11 @@ jobs:
           script: |
             const command = context.payload.comment.body;
             const outcome = "${{ steps.apply.outcome }}";
+            const stdout = "${{ steps.apply.outputs.stdout }}";
             const emoji = outcome === 'failure' ? ':x:' : ':white_check_mark:';
             const output = `#### Terraform Apply Output \`${outcome}\` ${emoji}
             \`\`\`\n
-            ${{ steps.apply.outputs.stdout }}
+            ${{ stdout }}
             \`\`\`
             *Executed by: @${{ github.actor }}, Terraform command: \`${command}\`*`;
 
