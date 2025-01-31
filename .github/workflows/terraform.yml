@@ -138,14 +138,15 @@ jobs:
               body: output
             })
 
-      # - name: Merge Pull Request
-      #   uses: actions/github-script@v6
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       await github.rest.pulls.merge({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         pull_number: context.issue.number,
-      #         merge_method: 'merge'
-      #       });
+      - name: Merge Pull Request
+        if: id.apply.outcome == 'success'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              merge_method: 'merge'
+            });
