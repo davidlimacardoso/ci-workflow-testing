@@ -146,7 +146,7 @@ jobs:
             const emoji = outcome === 'failure' ? ':x:' : ':white_check_mark:';
             const output = `#### Terraform Apply Output \`${outcome}\` ${emoji}
             \`\`\`\n
-            ${{ stdout }}
+            ${stdout}
             \`\`\`
             *Executed by: @${{ github.actor }}, Terraform command: \`${command}\`*`;
 
