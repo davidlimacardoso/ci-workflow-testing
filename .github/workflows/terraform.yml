@@ -139,7 +139,7 @@ jobs:
             })
 
       - name: Merge Pull Request
-        if: id.apply.outcome == 'success'
+        if: steps.apply.outcome == 'success'
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
