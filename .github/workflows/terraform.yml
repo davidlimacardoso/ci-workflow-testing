@@ -114,7 +114,7 @@ jobs:
       - name: Terraform Apply
         id: apply
         run: terraform apply -detailed-exitcode -auto-approve -no-color
-        # continue-on-error: true
+        continue-on-error: true
 
       - name: Comment Apply Output
         uses: actions/github-script@v6
