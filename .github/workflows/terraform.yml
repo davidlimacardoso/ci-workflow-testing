@@ -113,7 +113,8 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -detailed-exitcode -auto-approve -no-color 
+        run: terraform apply -detailed-exitcode -auto-approve -no-color
+        continue-on-error: true
 
       - name: Capture Terraform Apply Error
         if: failure()
@@ -121,11 +122,12 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### Terraform Apply Error \`${{ steps.apply.outcome }}\`
+            const command = context.payload.comment.body;
+            const output = `#### Terraform Apply Error \`${{ steps.apply.outcome }} \:x\:\` 
             \`\`\`\n
             ${{ steps.apply.outputs.stdout }}
             \`\`\`
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            *Executed by: @${{ github.actor }}, Terraform command: \`${command}\`*`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
