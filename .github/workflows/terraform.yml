@@ -116,35 +116,39 @@ jobs:
         run: terraform apply -detailed-exitcode -auto-approve -no-color
         continue-on-error: true
 
-      - name: Capture Terraform Apply Error
-        if: failure()
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const command = context.payload.comment.body;
-            const output = `#### Terraform Apply Error \`${{ steps.apply.outcome }} \:x\:\` 
-            \`\`\`\n
-            ${{ steps.apply.outputs.stdout }}
-            \`\`\`
-            *Executed by: @${{ github.actor }}, Terraform command: \`${command}\`*`;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            });
+      # - name: Capture Terraform Apply Error
+      #   if: failure()
+      #   uses: actions/github-script@v6
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       const command = context.payload.comment.body;
+      #       const output = `#### Terraform Apply Error \`${{ steps.apply.outcome }} \:x\:\` 
+      #       \`\`\`\n
+      #       ${{ steps.apply.outputs.stdout }}
+      #       \`\`\`
+      #       *Executed by: @${{ github.actor }}, Terraform command: \`${command}\`*`;
+      #       github.rest.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: output
+      #       });
 
       - name: Comment Apply Output
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### Terraform Apply Output \`${{ steps.apply.outcome }}\`
+            const command = context.payload.comment.body;
+            const outcome = steps.apply.outcome;
+            const emoji = outcome === 'failure' ? ':x:' : ':white_check_mark:';
+            const output = `#### Terraform Apply Output \`${outcome}\` ${emoji}
             \`\`\`\n
             ${{ steps.apply.outputs.stdout }}
             \`\`\`
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            *Executed by: @${{ github.actor }}, Terraform command: \`${command}\`*`;
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -152,14 +156,14 @@ jobs:
               body: output
             })
 
-      - name: Merge Pull Request
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            await github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number,
-              merge_method: 'merge'
-            });
+      # - name: Merge Pull Request
+      #   uses: actions/github-script@v6
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       await github.rest.pulls.merge({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         pull_number: context.issue.number,
+      #         merge_method: 'merge'
+      #       });
