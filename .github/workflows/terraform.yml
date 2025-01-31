@@ -27,7 +27,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform refresh
+      - name: Terraform Refresh
         run: rm -rf .terraform
 
       - name: Terraform Init
@@ -43,7 +43,6 @@ jobs:
         uses: kanga333/comment-hider@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-        # See action.yml for other options you can specify
 
       - name: Comment Plan Output
         uses: actions/github-script@v6
@@ -85,13 +84,27 @@ jobs:
         shell: bash
         working-directory: ./terraform
     steps:
+
+      - name: Notify Applying Settings
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = "\>\:rocket\: Applying the settings...";
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            });
+              
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform refresh
+      - name: Terraform Refresh
         run: rm -rf .terraform
 
       - name: Terraform Init
@@ -100,7 +113,7 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve -no-color 
+        run: terraform apply -detailed-exitcode -auto-approve -no-color 
 
       - name: Comment Apply Output
         uses: actions/github-script@v6
@@ -130,15 +143,3 @@ jobs:
               pull_number: context.issue.number,
               merge_method: 'merge'
             });
-
-      # - name: Merge Pull Request
-      #   uses: actions/github-script@v6
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       github.rest.pulls.merge({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         pull_number: context.issue.number,
-      #         merge_method: 'squash'
-      #       })
