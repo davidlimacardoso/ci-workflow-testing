@@ -114,11 +114,7 @@ jobs:
       - name: Terraform Apply
         id: apply
         run: terraform apply -detailed-exitcode -auto-approve -no-color
-        continue-on-error: true
-
-      - name: Capture Terraform Apply Error
-        if: failure()
-        run: echo "Terraform Apply failed"
+        # continue-on-error: true
 
       - name: Comment Apply Output
         uses: actions/github-script@v6
@@ -130,7 +126,7 @@ jobs:
             const emoji = outcome === 'failure' ? ':x:' : ':white_check_mark:';
             const output = `#### Terraform Apply Output \`${outcome}\` ${emoji}
             \`\`\`\n
-            ${{ steps.apply.outputs.stdout }} \n\n
+            ${{ steps.apply.outputs.stdout }} 
             ${{ steps.apply.outputs.stderr }}
             \`\`\`
             *Executed by: @${{ github.actor }}, Terraform command: \`${command}\`*`;
