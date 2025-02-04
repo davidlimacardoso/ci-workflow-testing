@@ -22,9 +22,7 @@ jobs:
   EXEC_TERRAFORM:
     name: Terraform
     permissions:
-      contents: 
-        read: true
-        write: true
+      contents: write
       pull-requests: write
-      issues: write
+      issues: write 
     uses: davidlimacardoso/github-actions/.github/workflows/terraform-plan-apply.yml@main
