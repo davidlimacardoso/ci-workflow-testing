@@ -9,35 +9,14 @@ on:
     paths:
       - terraform/**
 
-env:
-  GITHUB_REPOSITORY: ${{ github.repository }}
-
 jobs:
-  # This stage runs the Infracost CLI and posts PR comments.
-  # It also updates PR comments when the PR is updated (synchronize event).
-  infracost-pull-request-checks:
-    name: Infracost Pull Request Checks
-    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize')
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-
-    steps:
-
-      - name: Setup Infracost
-        uses: infracost/actions/setup@v3
-        with:
-          api-key: ${{ secrets.INFRACOST_API_KEY }}
-
-      - name: Generate Infracost JSON
-        run: |
-          infracost breakdown --path /code --format json --out-file /tmp/infracost.json
-      
-      - name: Post Infracost comment
-        run: |
-            infracost comment github --path=/tmp/infracost.json \
-                                     --repo=$GITHUB_REPOSITORY \
-                                     --github-token=${{ github.token }} \
-                                     --pull-request=${{ github.event.pull_request.number }} \
-                                     --behavior=update
+  EXEC_INFRACOST:
+  name: Infracost Checks
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Infracost Checks
+      uses: davidlimacardoso/github-actions/.github/workflows/infracost.yml@master
+      secrets:
+        INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
