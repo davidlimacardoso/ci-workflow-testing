@@ -27,6 +27,4 @@ jobs:
         write: true
       pull-requests: write
       issues: write
-    steps:
-      - name: Run Plan & Apply
-        uses: davidlimacardoso/github-actions/.github/workflows/terraform-plan-apply.yml@main
+    uses: davidlimacardoso/github-actions/.github/workflows/terraform-plan-apply.yml@main
