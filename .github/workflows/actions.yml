@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: 
-        - read
-        - write
+        read: true
+        write: true
       pull-requests: write
       issues: write 
     uses: davidlimacardoso/github-actions/.github/workflows/terraform-plan-apply.yml@main
