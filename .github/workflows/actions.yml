@@ -16,6 +16,6 @@ jobs:
     secrets:
       INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
   
-  EXEC_TERRAFORM:
-    name: Terraform Plan & Apply
-    uses: davidlimacardoso/github-actions/.github/workflows/terraform-plan-apply.yml@master
+  # EXEC_TERRAFORM:
+  #   name: Terraform Plan & Apply
+  #   uses: davidlimacardoso/github-actions/.github/workflows/terraform-plan-apply.yml@master
