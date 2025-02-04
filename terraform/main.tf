@@ -7,3 +7,4 @@ resource "null_resource" "default" {
 output "test" {
   value = "Teste 6"
 } 
+#
