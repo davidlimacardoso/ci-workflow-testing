@@ -9,6 +9,9 @@ on:
     paths:
       - terraform/**
 
+permissions:
+  pull-requests: write
+
 jobs:
   EXEC_INFRACOST:
     name: Infracost Checks
