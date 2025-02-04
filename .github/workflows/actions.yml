@@ -1,4 +1,4 @@
-name: Infracost Checks
+name: Infraestructure Actions
 
 on:
   pull_request:
@@ -11,11 +11,11 @@ on:
 
 jobs:
   EXEC_INFRACOST:
-  name: Infracost Checks
+    name: Infracost Checks
     uses: davidlimacardoso/github-actions/.github/workflows/infracost.yml@master
     secrets:
       INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
   
   EXEC_TERRAFORM:
-  name: Terraform Plan & Apply
+    name: Terraform Plan & Apply
     uses: davidlimacardoso/github-actions/.github/workflows/terraform-plan-apply.yml@master
