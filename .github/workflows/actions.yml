@@ -20,7 +20,7 @@ jobs:
       INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
   
   EXEC_TERRAFORM:
-    name: Terraform Plan & Apply
+    name: Terraform
     permissions:
       contents: 
         read: true
@@ -28,5 +28,5 @@ jobs:
       pull-requests: write
       issues: write
     steps:
-      - name: Run Terraform Plan & Apply
+      - name: Run Plan & Apply
         uses: davidlimacardoso/github-actions/.github/workflows/terraform-plan-apply.yml@main
