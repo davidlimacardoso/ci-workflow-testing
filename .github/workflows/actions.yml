@@ -9,17 +9,23 @@ on:
     paths:
       - terraform/**
 
-permissions:
-  contents: read
-  pull-requests: write
-
 jobs:
   EXEC_INFRACOST:
     name: Infracost Checks
+    permissions:
+      contents: read
+      pull-requests: write  
     uses: davidlimacardoso/github-actions/.github/workflows/infracost.yml@main
     secrets:
       INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
   
   EXEC_TERRAFORM:
     name: Terraform Plan & Apply
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 
+        - read
+        - write
+      pull-requests: write
+      issues: write 
     uses: davidlimacardoso/github-actions/.github/workflows/terraform-plan-apply.yml@main
