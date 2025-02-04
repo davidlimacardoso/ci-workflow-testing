@@ -12,11 +12,6 @@ on:
 jobs:
   EXEC_INFRACOST:
   name: Infracost Checks
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Infracost Checks
-      uses: davidlimacardoso/github-actions/.github/workflows/infracost.yml@master
-      secrets:
-        INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+    uses: davidlimacardoso/github-actions/.github/workflows/infracost.yml@master
+    secrets:
+      INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
