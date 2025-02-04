@@ -21,7 +21,6 @@ jobs:
   
   EXEC_TERRAFORM:
     name: Terraform Plan & Apply
-    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
